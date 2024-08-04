@@ -11,16 +11,17 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { goals } from "../constants/homepage";
+import UiContainer from "@/components/UiContainer";
 
 export default function Home({ Components, pageProps }) {
   return (
-    <Box border={"1px solid blue"} mt={10} m={"30"}>
+    <UiContainer>
       <Box mb={10}>
-        <Heading fontSize={{ base: 20, md: 26, lg: 60 }}>
+        <Heading fontSize={{ base: 24, md: 30, lg: 60 }}>
           be kind to your self ,
         </Heading>
         <Heading
-          fontSize={{ base: 20, md: 26, lg: 60 }}
+          fontSize={{ base: 24, md: 30, lg: 60 }}
           color={"#F79D5C"}
           className="HomeTextColor"
         >
@@ -30,7 +31,7 @@ export default function Home({ Components, pageProps }) {
       <VStack spacing={5} align="start" ml={30}>
         <ul spacing={4} p={0} m={0}>
           {goals.map((ele, index) => (
-            <Box as="li" key={index} mb={4} fontSize={18}>
+            <Box as="li" key={index} mb={4}>
               {ele}
             </Box>
           ))}
@@ -43,6 +44,6 @@ export default function Home({ Components, pageProps }) {
         </Button>
         <Button style={{ color: "#F79D5C" }}>exprole classes</Button>
       </HStack>
-    </Box>
+    </UiContainer>
   );
 }

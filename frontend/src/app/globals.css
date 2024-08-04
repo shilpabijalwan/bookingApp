@@ -10,3 +10,6 @@
 .HomeCss {
   background-color: rgb(135, 150, 177);
 }
+.active {
+  color: #f79d5c;
+}

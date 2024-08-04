@@ -19,7 +19,9 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import { Link } from "@chakra-ui/react";
+// import { Link } from "@chakra-ui/react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Links = [
   { link: "/", name: "Home" },
@@ -31,25 +33,24 @@ const Links = [
 
 const NavLink = (props) => {
   const { children } = props;
+
   return (
-    <Box
-      as="a"
+    <HStack
+      spacing={12}
+      display={{ base: "none", md: "flex" }}
+      as="nav"
       px={2}
       py={1}
-      rounded={"md"}
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
       href={"#"}
     >
       {children}
-    </Box>
+    </HStack>
   );
 };
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const pathname = usePathname();
 
   return (
     <>
@@ -66,17 +67,18 @@ export default function NavBar() {
             <Box>Yoga Life</Box>
           </HStack>
 
-          <HStack
-            as={"nav"}
-            spacing={12}
-            display={{ base: "none", md: "flex" }}
-          >
+          <NavLink as={"nav"}>
             {Links.map((link, index) => (
-              <Link as={NextLink} href={link.link} key={index}>
-                {link.name}{" "}
+              <Link
+                href={link.link}
+                key={index}
+                className={pathname == link.link ? "active" : ""}
+                rounded={"md"}
+              >
+                {link.name}
               </Link>
             ))}
-          </HStack>
+          </NavLink>
 
           <Flex alignItems={"center"}>
             <Button
@@ -119,8 +121,7 @@ export default function NavBar() {
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
                 <Link as={NextLink} href={link.link}>
-                  {" "}
-                  {link.name}{" "}
+                  {link.name}
                 </Link>
               ))}
             </Stack>
