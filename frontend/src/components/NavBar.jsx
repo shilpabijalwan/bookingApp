@@ -49,8 +49,8 @@ const NavLink = (props) => {
       spacing={12}
       display={{ base: "none", md: "flex" }}
       as="nav"
-      px={2}
-      py={1}
+      // px={2}
+      // py={1}
       href={"#"}
     >
       {children}
@@ -69,8 +69,8 @@ export default function NavBar() {
       px={4}
       // border={"1px solid green"}
       h={20}
-      mb={6}
-      className="NavShadow"
+      // mb={6}
+      // className="NavShadow"
     >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <IconButton

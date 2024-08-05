@@ -26,7 +26,7 @@ export default function Home({ Components, pageProps }) {
             className="headings HomeTextColor"
             fontSize={{ base: 24, md: 36, lg: 60 }}
             color={"#F79D5C"}
-            mb={10}
+            mb={4}
           >
             Do yoga every day.
           </Heading>
@@ -47,7 +47,6 @@ export default function Home({ Components, pageProps }) {
             </ul>
           </VStack>
           <Box
-            border={"1 px solid blue"}
             w={{ base: "100%", md: "100%", lg: "50%" }}
             height={{ base: "0", md: "300px" }}
           >
