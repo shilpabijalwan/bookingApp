@@ -1,5 +1,8 @@
 {
-    "editor.fontSize": 16,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+  "editor.fontSize": 16,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "git.ignoreLimitWarning": true,
+  "gitlens.graph.pullRequests.enabled": false,
+  "gitlens.graph.scrollMarkers.enabled": false
 }

@@ -1,4 +1,4 @@
-"use client"; // Mark as a client component
+ // Mark as a client component
 
 import {
   Box,
@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { goals } from "../constants/homepage";
 import UiContainer from "@/components/UiContainer";
+import Buttons from "@/components/Buttons";
 
 export default function Home({ Components, pageProps }) {
   return (
@@ -58,14 +59,7 @@ export default function Home({ Components, pageProps }) {
             />
           </Box>
         </Box>
-        <HStack spacing={10} bg={"#fdf1f1"} p={{ base: 4, md: 15, lg: 30 }}>
-          <Button style={{ background: "#F79D5C", color: "white" }}>
-            become a member
-          </Button>
-          <Button style={{ color: "#F79D5C" }} variant={"outline"}>
-            exprole classes
-          </Button>
-        </HStack>
+        <Buttons/>
         <Box>
           <svg
             xmlns="http://www.w3.org/2000/svg"
