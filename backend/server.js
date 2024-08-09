@@ -1,29 +1,40 @@
-// const dotenv = require("dotenv");.
 import dotenv from "dotenv";
+import express from "express";
+import mongoose from "mongoose";
 dotenv.config();
-const mongoose = require("mongoose");
-const express = require("express");
+
 const app = express();
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || "0.0.0.0";
+const PORT = process.env.PORT || 4000;
+import cors from "cors";
+
+// const HOST = process.env.HOST || "0.0.0.0";
 
 //Connect with database
-main().catch((err) => console.log(err));
+// main().catch((err) => console.log(err));
 
-async function main() {
-  await mongoose.connect(process.env.MONGODB_URI, {
-    dbName: "bookingApp",
-  });
+// async function main() {
+//   await mongoose.connect(process.env.MONGODB_URI, {
+//     dbName: "bookingApp",
+//   });
 
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
-}
-console.log("hellosss--8888--")
+// use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+// }
 
+app.use(cors());
 
-app.use("/", function (req, res) {
+app.get("/", function (req, res) {
   res.json({ message: "Hello" });
 });
+app.get("/api/blog", function (req, res) {
+  const blogs = [
+    { blog: "1", id: 1 },
+    { blog: "2", id: 2 },
+    { blog: "3", id: 3 },
+    { blog: "4", id: 4 },
+  ];
+  res.send({ data: blogs, status: 200 });
+});
 
-const server = app.listen(PORT, HOST, () => {
-  console.log(`Server is running on http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
 });
