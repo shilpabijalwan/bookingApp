@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 function Classes() {
   const [data, setData] = useState([]);
+  console.log(data);
 
   useEffect(() => {
     axios
@@ -20,6 +21,9 @@ function Classes() {
   return (
     <Box mt={"30"} p={42}>
       No classes available
+      {data.map((ele) => (
+        <h1>{ele.blog}</h1>
+      ))}
     </Box>
   );
 }

@@ -25,6 +25,7 @@ app.use(cors());
 app.get("/", function (req, res) {
   res.json({ message: "Hello" });
 });
+
 app.get("/api/blog", function (req, res) {
   const blogs = [
     { blog: "1", id: 1 },
@@ -32,7 +33,7 @@ app.get("/api/blog", function (req, res) {
     { blog: "3", id: 3 },
     { blog: "4", id: 4 },
   ];
-  res.send({ data: blogs, status: 200 });
+  res.send({ blogs, status: 200 });
 });
 
 app.listen(PORT, () => {
