@@ -1,10 +1,8 @@
 import dotenv from "dotenv";
 
-import cors from "cors";
 import connectDB from "./db/index.js";
 import { app } from "./app.js";
 dotenv.config();
-
 
 const PORT = process.env.PORT || 8000;
 

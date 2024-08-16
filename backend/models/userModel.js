@@ -22,9 +22,8 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
     },
     avatar: {
-      type: true,
+      type: String,
     },
-
     refreshToken: {
       type: String,
     },
@@ -54,8 +53,9 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.methods.isPasswordCorrect = async function () {
-  await bcrypt.compare(password, this.password);
+userSchema.methods.isPasswordCorrect = async function (password) {
+  console.log(password, "*******");
+  return await bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.generateAccessToken = async function () {
