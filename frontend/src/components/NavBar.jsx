@@ -31,7 +31,8 @@ import NextLink from "next/link";
 // import { Link } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import LoginModal from "@/modals/LoginModal";
 
 const Links = [
   { link: "/", name: "Home" },
@@ -60,6 +61,12 @@ const NavLink = (props) => {
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenLogin,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin,
+  } = useDisclosure();
+  const [flag, setFlag] = useState(false);
   const pathname = usePathname();
   const btnRef = useRef();
 
@@ -102,8 +109,9 @@ export default function NavBar() {
 
         <Flex alignItems={"center"}>
           <Button
-            as={NextLink}
-            href="/login"
+            onClick={onOpenLogin}
+            // as={NextLink}
+            // href="/login"
             // variant={"solid"}
             bg={"#F79D5C"}
             size={"sm"}
@@ -113,6 +121,9 @@ export default function NavBar() {
           >
             Login
           </Button>
+
+          <LoginModal isOpen={isOpenLogin} onClose={onCloseLogin} />
+
           {/* <Menu> */}
           {/* <MenuButton
                 as={Button}
@@ -167,8 +178,8 @@ export default function NavBar() {
 
             <DrawerFooter>
               <Button
-                as={NextLink}
-                href="/login"
+                // as={NextLink}
+                // href="/login"
                 bg={"#F79D5C"}
                 size={"sm"}
                 mr={4}
