@@ -11,20 +11,34 @@ import {
   FormLabel,
   Input,
   Box,
+  FormErrorMessage,
 } from "@chakra-ui/react";
+import { BeatLoader } from "react-spinners";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 function LoginModal({ isOpen, onClose }) {
+  const [show, setShow] = useState(false);
+  const isLoading = true;
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const handleModal = () => {
     onClose();
   };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const handleSLogin = async () => {
+    console.log("working");
+  };
 
   return (
     <Modal
-      // closeOnOverlayClick={false}
       initialFocusRef={initialRef}
       finalFocusRef={finalRef}
       isOpen={isOpen}
@@ -35,36 +49,66 @@ function LoginModal({ isOpen, onClose }) {
       <ModalContent mt={32} pb={10}>
         <ModalHeader color={"#f79d5c"}>Sign in to YogaLife</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>
-          <FormControl>
-            <FormLabel>Username or email address</FormLabel>
-            <Input
-              ref={initialRef}
-              placeholder="email or user name"
-              focusBorderColor="gray.100"
-            />
-          </FormControl>
+        <form onSubmit={handleSubmit(handleSLogin)}>
+          <ModalBody pb={6}>
+            <FormControl isInvalid={errors.userName}>
+              <FormLabel>Username or email address</FormLabel>
+              <Input
+                type="text"
+                ref={initialRef}
+                placeholder="email or user name"
+                focusBorderColor="gray.100"
+                {...register("userName", {
+                  required: "user name or email is required",
+                })}
+              />
+              <FormErrorMessage color={"red"}>
+                {errors.userName && errors.userName.message}
+              </FormErrorMessage>
+            </FormControl>
 
-          <FormControl mt={4}>
-            <FormLabel>Password</FormLabel>
-            <Input
-              placeholder="Enter your password"
-              focusBorderColor="gray.100"
-            />
-          </FormControl>
-        </ModalBody>
+            <FormControl mt={4} isInvalid={errors.password}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type={show ? "text" : "password"}
+                placeholder="Enter your password"
+                focusBorderColor="gray.100"
+                {...register("password", { required: "password is required" })}
+              />
+              <p onClick={() => setShow((pre) => !pre)}>
+                {show ? "hide" : "show"}
+              </p>
+              <FormErrorMessage color={"red"}>
+                {errors.password && errors.password.message}
+              </FormErrorMessage>
+            </FormControl>
+          </ModalBody>
 
-        <ModalFooter>
-          <Button
-            m={"auto"}
-            px={"48"}
-            bg={"#f79d5c"}
-            textColor={"white"}
-            _hover={{ bg: "#fbcfa4" }}
-          >
-            Login
-          </Button>
-        </ModalFooter>
+          <ModalFooter>
+            {!isLoading ? (
+              <Button
+                type="submit"
+                m={"auto"}
+                px={"48"}
+                bg={"#f79d5c"}
+                textColor={"white"}
+                _hover={{ bg: "#fbcfa4" }}
+              >
+                Login
+              </Button>
+            ) : (
+              <Button
+                isLoading
+                width="full"
+                color={"white"}
+                colorScheme="orange"
+                spinner={<BeatLoader size={8} color="white" />}
+              >
+                click
+              </Button>
+            )}
+          </ModalFooter>
+        </form>
         <Box href={"/signup"} m={"auto"} mt={4} w={"100%"} textAlign={"center"}>
           Don't have an account ?
           <Link

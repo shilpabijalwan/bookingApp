@@ -1,8 +1,14 @@
 // app/providers.tsx
-'use client'
+"use client";
 
-import { ChakraProvider } from '@chakra-ui/react'
+import { store } from "@/redux/store";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Provider } from "react-redux";
 
 export function Providers({ children }) {
-  return <ChakraProvider>{children}</ChakraProvider>
+  return (
+    <Provider store={store}>
+      <ChakraProvider>{children}</ChakraProvider>
+    </Provider>
+  );
 }

@@ -1,7 +1,7 @@
 "use client"; // Mark as a client component
 
-import { ToastStatus } from "@/customErrors/UpdatingToast";
 import { UserSignUp } from "@/services/authService";
+import { BeatLoader } from "react-spinners";
 import {
   Box,
   FormControl,
@@ -13,14 +13,23 @@ import {
   useToast,
   Toast,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 
 function SignUp() {
+  const initialRef = useRef();
   const toast = useToast();
+
+  const isLoading = useSelector((data) => {
+    return data.auth.isLoading;
+  });
+
+  const [show, setShow] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -28,7 +37,7 @@ function SignUp() {
     try {
       await UserSignUp(data)
         .then((res) => {
-          console.log(res, "response:----------------->");
+          reset();
           toast({
             title: res?.data?.message,
             status: "success",
@@ -68,12 +77,13 @@ function SignUp() {
         </Text>
         <form onSubmit={handleSubmit(handleSignUp)}>
           <FormControl isInvalid={errors.userName}>
-            <FormLabel htmlFor="email">User Name:</FormLabel>
+            <FormLabel htmlFor="name">User Name:</FormLabel>
             <Input
+              ref={initialRef}
               focusBorderColor="gray.100"
               id="username"
               type="text"
-              {...register("userName", { required: "User Name is required" })}
+              {...register("userName", { required: "user name is required" })}
             />
             <FormErrorMessage color={"red"}>
               {errors.userName && errors.userName.message}
@@ -86,7 +96,7 @@ function SignUp() {
               focusBorderColor="gray.100"
               id="email"
               type="email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", { required: "email is required" })}
             />
             <FormErrorMessage color={"red"}>
               {errors.email && errors.email.message}
@@ -98,23 +108,38 @@ function SignUp() {
             <Input
               focusBorderColor="gray.100"
               id="password"
-              type="password"
-              {...register("password", { required: "Password is required" })}
+              type={show ? "text" : "password"}
+              {...register("password", { required: "password is required" })}
             />
+            <p onClick={() => setShow((pre) => !pre)}>
+              {show ? "hide" : "show"}
+            </p>
 
             <FormErrorMessage color={"red"}>
               {errors.password && errors.password.message}
             </FormErrorMessage>
           </FormControl>
 
-          <Button
-            type="submit"
-            width="full"
-            style={{ backgroundColor: "#F79D5C" }}
-            color={"white"}
-          >
-            Sign up
-          </Button>
+          {!isLoading ? (
+            <Button
+              type="submit"
+              width="full"
+              style={{ backgroundColor: "#F79D5C" }}
+              color={"white"}
+            >
+              Sign up
+            </Button>
+          ) : (
+            <Button
+              isLoading
+              width="full"
+              color={"white"}
+              colorScheme="orange"
+              spinner={<BeatLoader size={8} color="white" />}
+            >
+              Click me
+            </Button>
+          )}
         </form>
       </Box>
     </Box>
