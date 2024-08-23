@@ -177,7 +177,7 @@ export default function NavBar() {
             </DrawerBody>
 
             <DrawerFooter>
-              <Button
+              {/* <Button
                 // as={NextLink}
                 // href="/login"
                 bg={"#F79D5C"}
@@ -187,7 +187,7 @@ export default function NavBar() {
                 _hover={{ color: "none" }}
               >
                 Login
-              </Button>
+              </Button> */}
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

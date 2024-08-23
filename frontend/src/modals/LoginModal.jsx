@@ -18,10 +18,13 @@ import React, { useRef } from "react";
 function LoginModal({ isOpen, onClose }) {
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+  const handleModal = () => {
+    onClose();
+  };
 
   return (
     <Modal
-      closeOnOverlayClick={false}
+      // closeOnOverlayClick={false}
       initialFocusRef={initialRef}
       finalFocusRef={finalRef}
       isOpen={isOpen}
@@ -35,12 +38,19 @@ function LoginModal({ isOpen, onClose }) {
         <ModalBody pb={6}>
           <FormControl>
             <FormLabel>Username or email address</FormLabel>
-            <Input ref={initialRef} placeholder="email or user name" />
+            <Input
+              ref={initialRef}
+              placeholder="email or user name"
+              focusBorderColor="gray.100"
+            />
           </FormControl>
 
           <FormControl mt={4}>
             <FormLabel>Password</FormLabel>
-            <Input placeholder="Enter your password" focusBorderColor="none" />
+            <Input
+              placeholder="Enter your password"
+              focusBorderColor="gray.100"
+            />
           </FormControl>
         </ModalBody>
 
@@ -57,7 +67,11 @@ function LoginModal({ isOpen, onClose }) {
         </ModalFooter>
         <Box href={"/signup"} m={"auto"} mt={4} w={"100%"} textAlign={"center"}>
           Don't have an account ?
-          <Link href={"/signup"} style={{ marginLeft: "2px", color: "blue" }}>
+          <Link
+            onClick={handleModal}
+            href={"/signup"}
+            style={{ marginLeft: "2px", color: "blue" }}
+          >
             Sign up
           </Link>
         </Box>

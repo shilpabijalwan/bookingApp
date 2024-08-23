@@ -21,7 +21,7 @@ const generateRefreshAndAccessToken = async (userId) => {
   }
 };
 
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res, next) => {
   // get user details from frontend
   // validation
   // check if user already exist
@@ -31,53 +31,62 @@ const registerUser = asyncHandler(async (req, res) => {
   // check for user creation
   //return res
 
-  const { userName, email, role, password } = req.body;
-  // validation
-  console.log(role);
-  //   const userRole = ["admin", "user", "instructor"].includes(role)
-  //     ? role
-  //     : "user";
-  if (
-    [userName, email, role, password].some((field) => {
-      return field?.trim() == "";
-    })
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
+  try {
+    const { userName, email, role, password } = req.body;
+    // validation
+    console.log(role);
+    //   const userRole = ["admin", "user", "instructor"].includes(role)
+    //     ? role
+    //     : "user";
+    if (
+      [userName, email, role, password].some((field) => {
+        return field?.trim() == "";
+      })
+    ) {
+      throw new ApiError(400, "All fields are required");
+    }
 
-  // check if user already exist
+    // check if user already exist
 
-  //   const user = User.findOne({email}) or
-  const existingUser = await User.findOne({
-    $or: [{ userName }, { email }],
-  });
+    //   const user = User.findOne({email}) or
+    const existingUser = await User.findOne({
+      $or: [{ userName }, { email }],
+    });
 
-  console.log(existingUser, "existing");
-  if (existingUser) {
-    throw new ApiError(409, "user with this email and userName already exist");
-  }
+    console.log(existingUser, "existing");
 
-  //   const avatarLocalpath = req.files?.avatar[0]?.path;
-  // const avatar= await uploadOnCloudinary(avatarLocalpath)
-  const user = await User.create({
-    userName,
-    email,
-    password,
-    role,
-  });
-  const createdUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+    if (existingUser) {
+      throw new ApiError(
+        409,
+        "user with this email and userName already exist"
+      );
+    }
 
-  if (!createdUser) {
-    throw new ApiError(
-      500,
-      "something went wrong while registering the new user"
+    //   const avatarLocalpath = req.files?.avatar[0]?.path;
+    // const avatar= await uploadOnCloudinary(avatarLocalpath)
+    const user = await User.create({
+      userName,
+      email,
+      password,
+      role,
+    });
+    const createdUser = await User.findById(user._id).select(
+      "-password -refreshToken"
     );
+
+    if (!createdUser) {
+      throw new ApiError(
+        500,
+        "something went wrong while registering the new user"
+      );
+    }
+    return res
+      .status(201)
+      .json(new ApiResponse(200, createdUser, "user registered successfully"));
+  } catch (error) {
+    console.log("_____________", error);
+    next(error);
   }
-  return res
-    .status(201)
-    .json(new ApiResponse(200, createdUser, "user registered successfully"));
 });
 
 const loginUser = asyncHandler(async (req, res) => {
