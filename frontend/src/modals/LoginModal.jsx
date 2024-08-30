@@ -12,17 +12,26 @@ import {
   Input,
   Box,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { BeatLoader } from "react-spinners";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { userLogin } from "@/services/authService";
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 function LoginModal({ isOpen, onClose }) {
   const [show, setShow] = useState(false);
-  const isLoading = true;
+  const toast = useToast();
+
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+
+  const isLoading = useSelector((data) => {
+    return data.auth.isLoading;
+  });
   const handleModal = () => {
     onClose();
   };
@@ -33,8 +42,30 @@ function LoginModal({ isOpen, onClose }) {
     formState: { errors },
   } = useForm();
 
-  const handleSLogin = async () => {
-    console.log("working");
+  const handleSLogin = async (data) => {
+    try {
+      await userLogin(data).then((res) => {
+        console.log(res);
+        if (res) {
+          const cookieStore = Cookies.get("accessToken");
+          console.log(cookieStore, "cookies");
+        }
+        reset();
+        toast({
+          title: res?.data?.message,
+          status: "success",
+          isClosable: true,
+          duration: 1000,
+        });
+      });
+    } catch (error) {
+      toast({
+        title: error.response?.data?.message,
+        status: "error",
+        isClosable: true,
+        duration: 1000,
+      });
+    }
   };
 
   return (

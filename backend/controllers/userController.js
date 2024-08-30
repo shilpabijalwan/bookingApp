@@ -106,18 +106,25 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "user does not exist");
+    throw new ApiError(
+      404,
+      "No account found with this email address or user name"
+    );
   }
 
   // if user exist and check password
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, `invalid ${user.role} creditials`);
+    throw new ApiError(401, `Incorrect password`);
   }
   const { refreshToken, accessToken } = await generateRefreshAndAccessToken(
     user._id
   );
+
+  if (!(user || isPasswordValid)) {
+    throw new ApiError(401, `Invalid credentials`);
+  }
 
   const logedInuser = await User.findById(user._id).select(
     "-password -refreshToken"
