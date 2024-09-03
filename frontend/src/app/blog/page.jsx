@@ -6,6 +6,7 @@ import { blogs } from "@/constants/blogdata";
 import Link from "next/link";
 
 function Blog() {
+  console.log("blog page");
   const handleOpenBlog = (blogId) => {
     console.log(blogId);
   };
