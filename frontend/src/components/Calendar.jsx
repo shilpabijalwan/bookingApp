@@ -71,7 +71,7 @@ function Calendar() {
   useEffect(() => {
     const tempData = [];
     for (let i = 1; i <= firstDayIndex; i++) {
-      tempData.push(<Text key={`empty-${i}`}>{i}</Text>);
+      tempData.push(<Text key={`empty-${i}`}></Text>);
     }
     setDays(tempData);
   }, [firstDayIndex]);
