@@ -1,14 +1,16 @@
 "use client";
 
+import React, { Suspense, useEffect } from "react";
+
+import { Box, Text } from "@chakra-ui/react";
 import Calendar from "@/components/Calendar";
-import { Box } from "@chakra-ui/react";
-import { useEffect } from "react";
 
 function Schedules() {
   return (
     <Box>
-      Schedules
+      {/* <Suspense fallback={<Text>Loading Calendar...</Text>}> */}
       <Calendar />
+      {/* </Suspense> */}
     </Box>
   );
 }

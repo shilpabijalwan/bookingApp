@@ -3,12 +3,15 @@ import { ApiError } from "../utils/ApiErrors.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import jwt from "jsonwebtoken";
 
 const generateRefreshAndAccessToken = async (userId) => {
   try {
     const user = await User.findById(userId);
-    const accessToken = user.generateAccessToken;
-    const refreshToken = user.generateRefreshToken;
+    const accessToken = await user.generateAccessToken();
+    const refreshToken = await user.generateRefreshToken();
+    console.log("Access Token:", accessToken);
+    console.log("Refresh Token:", refreshToken);
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
@@ -116,7 +119,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, `Incorrect password`);
+    throw new ApiError(401, `Invalid credentials`);
   }
   const { refreshToken, accessToken } = await generateRefreshAndAccessToken(
     user._id
@@ -176,4 +179,41 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, ` logged out`));
 });
 
-export { registerUser, loginUser, logoutUser };
+const getUser = asyncHandler(async (req, res) => {
+  // Extract token from cookies or Authorization header
+  // const token =
+  //   req.cookies?.accessToken || req.header("Authorization")?.split(" ")[1];
+  // console.log(token);
+  // if (!token) {
+  //   throw new ApiError(401, "Unauthorized", token);
+  // }
+
+  // try {
+  //   // Verify the token and get details
+  //   const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  //   console.log("Decoded token:", decodedToken);
+
+  //   const userId = decodedToken._id;
+
+  //   // Fetch user data from MongoDB
+  //   const user = await User.findById(userId).select("-password");
+
+  //   if (!user) {
+  //     throw new ApiError(404, "User not found");
+  //   }
+
+  //   // Respond with user data
+  //   return res.status(200).json(new ApiResponse(200, user));
+  // } catch (error) {
+  //   throw new ApiError(401, "Invalid Token");
+  // }
+  const userId = req.user._id;
+  // Fetch user data from MongoDB
+  const user = await User.findById(userId).select("-password");
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  return res.status(200).json(new ApiResponse(200, user));
+});
+
+export { registerUser, loginUser, logoutUser, getUser };

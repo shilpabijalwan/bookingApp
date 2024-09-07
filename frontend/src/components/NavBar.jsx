@@ -29,7 +29,7 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 // import { Link } from "@chakra-ui/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import LoginModal from "@/modals/LoginModal";
@@ -69,16 +69,13 @@ export default function NavBar() {
   const [flag, setFlag] = useState(false);
   const pathname = usePathname();
   const btnRef = useRef();
+  const router = useRouter();
 
+  const handleAdminDashboard = () => {
+    router.push("/admin-dashboard");
+  };
   return (
-    <Box
-      bg={"#fdf1f1"}
-      px={4}
-      // border={"1px solid green"}
-      h={20}
-      // mb={6}
-      // className="NavShadow"
-    >
+    <Box bg={"#fdf1f1"} px={4} h={20}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <IconButton
           size={"md"}
@@ -106,7 +103,7 @@ export default function NavBar() {
             </Link>
           ))}
         </NavLink>
-
+        <Button onClick={handleAdminDashboard}>Admin Dashboard</Button>
         <Flex alignItems={"center"}>
           <Button
             onClick={onOpenLogin}

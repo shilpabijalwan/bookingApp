@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.13.0",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.3",
+    "cookies-next": "^4.2.1",
     "framer-motion": "^11.3.28",
     "js-cookie": "^3.0.5",
     "next": "14.2.5",

@@ -1,4 +1,4 @@
- // Mark as a client component
+"use client";
 
 import {
   Box,
@@ -14,8 +14,30 @@ import {
 import { goals } from "../constants/homepage";
 import UiContainer from "@/components/UiContainer";
 import Buttons from "@/components/Buttons";
+import { useEffect } from "react";
+import { axiosToken } from "@/Axios/axiosInstance";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { userInfo } from "@/redux/authSlice";
 
 export default function Home({ Components, pageProps }) {
+  const dispatch = useDispatch();
+  const fetchUserData = async () => {
+    try {
+      // Make a request to the backend without setting cookies manually
+      const response = await axiosToken.get(`/users/getUser`, {});
+      console.log(response.data?.data, "__________>>>>>>>>");
+      dispatch(userInfo(response.data?.data));
+      // return response.data.user;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   return (
     <UiContainer>
       <Box className="FlexBox">
@@ -59,7 +81,7 @@ export default function Home({ Components, pageProps }) {
             />
           </Box>
         </Box>
-        <Buttons/>
+        <Buttons />
         <Box>
           <svg
             xmlns="http://www.w3.org/2000/svg"

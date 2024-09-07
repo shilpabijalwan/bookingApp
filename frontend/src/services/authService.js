@@ -24,6 +24,11 @@ const userLogin = async (data) => {
     const response = await axiosApi.post("users/login", data);
     if (response) {
       store.dispatch(Loading(false));
+      console.log("response________", response.data?.data);
+      localStorage.setItem(
+        "userDetails",
+        JSON.stringify(response.data?.data?.user)
+      );
       return response;
     }
   } catch (error) {

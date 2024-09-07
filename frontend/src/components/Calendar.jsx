@@ -2,17 +2,22 @@ import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Grid,
   grid,
+  HStack,
   SimpleGrid,
+  Stack,
   Text,
   textDecoration,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import Slots from "./Slots";
 
 function Calendar() {
   const [days, setDays] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [formattedDate, setFormattedDate] = useState("");
+  const [availableSlots, setAvailableSlots] = useState([]);
 
   const today = new Date();
 
@@ -31,18 +36,20 @@ function Calendar() {
 
   let dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  console.log(
-    "firstday",
-    firstDayCurrentMonth,
-    "last day",
-    lastDayCurrentMonth,
-    "firstDayIndex",
-    firstDayIndex
-  );
+  const slotsData = {
+    "Sat Nov 09 2024": ["10:00 AM - 10:45 AM", "11:00 AM", "2:00 PM"],
+    "Sun Nov 10 2024": ["9:00 AM", "1:00 PM", "3:00 PM"],
+    "Thu Sep 05 2024": ["10:00 AM - 10:45 AM", "10:00 PM", "3:00 PM"],
+    // Add more dates and slots as needed
+  };
 
   const handleSelectedDate = (date) => {
     console.log("selected date", date);
     setSelectedDate(date);
+
+    if (date) {
+      setAvailableSlots(slotsData[date] || []);
+    }
   };
 
   const handlePreviousMonth = () => {
@@ -95,7 +102,10 @@ function Calendar() {
 
       let isSelectedDate =
         selectedDate && selectedDate === currentDate.toDateString();
-
+      if (isCurrentDate && !selectedDate) {
+        const formattedDate = currentDate.toDateString();
+        setAvailableSlots(slotsData[formattedDate] || []);
+      }
       tempDays.push(
         <Box
           style={{
@@ -136,78 +146,79 @@ function Calendar() {
     }
 
     setDays((prevDays) => [...prevDays.slice(0, firstDayIndex), ...tempDays]); // Combine empty days and actual days
-  }, [numberOfDays, selectedDate, month, year]);
+  }, [numberOfDays, selectedDate, month, year, selectedDate]);
 
   return (
-    <Box w={"100%"}>
+    <Box
+      w={"95%"}
+      m="auto"
+      display="flex"
+      flexDirection={["column", "column", "row"]}
+    >
+      <Stack
+        w={["100%", "100%", "50%"]}
+        m="auto"
+        mt={10}
+        p={6}
+        boxShadow="md"
+        borderRadius="md"
+      >
+        <HStack justifyContent="space-between">
+          <Button
+            onClick={handlePreviousMonth}
+            height={10}
+            w={10}
+            borderRadius={"50%"}
+            bg={"#f79d5c"}
+            color={"white"}
+          >
+            <ArrowLeftIcon boxSize={3} />
+          </Button>
+          <Text fontSize="lg" fontWeight="bold" color="#f79d5c">
+            {formattedDate}
+          </Text>
+          <Button
+            onClick={handleNextMonth}
+            height={10}
+            w={10}
+            borderRadius={"50%"}
+            bg={"#f79d5c"}
+            color={"white"}
+          >
+            <ArrowRightIcon />
+          </Button>
+        </HStack>
+
+        <SimpleGrid columns={7} spacing={4} mt={6}>
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+            (day, index) => (
+              <Text key={index} fontWeight="bold" textAlign="center">
+                {day}
+              </Text>
+            )
+          )}
+        </SimpleGrid>
+
+        <SimpleGrid columns={7} spacing={4} mt={4}>
+          {days}
+        </SimpleGrid>
+      </Stack>
       <Box
-        display={"flex"}
-        border={"1px solid gray"}
-        w={{ base: "80%", sm: "70%", lg: "50%" }}
-        mt={10}
-        m={"auto"}
-        justifyContent={"space-evenly"}
+        alignItems={"center"}
+        w={["100%", "100%", "50%"]}
+        p={4}
+        boxShadow="md"
+        borderRadius="md"
+        // border="1px solid black"
+        mt={[6, 0]}
+        gap={4}
       >
-        <Button
-          height={10}
-          w={10}
-          borderRadius={"50%"}
-          bg={"#f79d5c"}
-          color={"white"}
-          onClick={handlePreviousMonth}
-        >
-          <ArrowLeftIcon boxSize={3} />
-        </Button>
-        <Text mt={2} fontSize={18} color={"#f79d5c"} fontWeight={"bold"}>
-          {formattedDate}
-        </Text>
-        <Button
-          height={10}
-          w={10}
-          borderRadius={"50%"}
-          bg={"#f79d5c"}
-          color={"white"}
-          onClick={handleNextMonth}
-        >
-          <ArrowRightIcon boxSize={3} />
-        </Button>
+        {availableSlots.length ? (
+          availableSlots.map((slot, i) => <Slots key={i} data={slot} />)
+        ) : (
+          <Text>No slots available</Text>
+        )}
       </Box>
-      <SimpleGrid
-        style={{
-          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-        }}
-        columns={7}
-        spacing={4}
-        mb={4}
-        w={{ base: "80%", md: "60%", xl: "50%" }}
-        m={"auto"}
-        mt={10}
-        p={8}
-      >
-        {dayNames.map((day, index) => (
-          <Box key={index} fontWeight="bold">
-            {day}
-          </Box>
-        ))}
-      </SimpleGrid>
-      <SimpleGrid
-        style={{
-          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-        }}
-        // border={{
-        //   base: "1px solid blue",
-        //   sm: "1px solid red",
-        //   xl: "1px solid black",
-        // }}
-        columns={7}
-        spacing={4}
-        w={{ base: "80%", md: "60%", xl: "50%" }}
-        m={"auto"}
-        p={8}
-        textAlign={"center"}
-      >
-        {days}
-      </SimpleGrid>
     </Box>
   );
 }
