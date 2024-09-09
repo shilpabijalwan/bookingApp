@@ -19,6 +19,7 @@ import { axiosToken } from "@/Axios/axiosInstance";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { userInfo } from "@/redux/authSlice";
+import UserLayout from "@/layout/UserLayout";
 
 export default function Home({ Components, pageProps }) {
   const dispatch = useDispatch();
@@ -39,71 +40,76 @@ export default function Home({ Components, pageProps }) {
     fetchUserData();
   }, []);
   return (
-    <UiContainer>
-      <Box className="FlexBox">
-        <Box p={{ base: 4, md: 14, lg: 30 }}>
-          <Heading fontSize={{ base: 24, md: 36, lg: 60 }} className="headings">
-            Be kind to your self,
-          </Heading>
-          <Heading
-            className="headings HomeTextColor"
-            fontSize={{ base: 24, md: 36, lg: 60 }}
-            color={"#F79D5C"}
-            mb={4}
-          >
-            Do yoga every day.
-          </Heading>
-        </Box>
-        <Box
-          display={{ base: "block", md: "flex" }}
-          w="100%"
-          height={{ base: "80vh", md: "auto" }}
-          justifyContent="space-between"
-        >
-          <VStack pl={{ base: 14, md: 16, lg: 14 }} spacing={5} align="start">
-            <ul spacing={4} p={0} m={0}>
-              {goals.map((ele, index) => (
-                <Box as="li" key={index} mb={4}>
-                  {ele}
-                </Box>
-              ))}
-            </ul>
-          </VStack>
+    <UserLayout>
+      <UiContainer>
+        <Box className="FlexBox">
+          <Box p={{ base: 4, md: 14, lg: 30 }}>
+            <Heading
+              fontSize={{ base: 24, md: 36, lg: 60 }}
+              className="headings"
+            >
+              Be kind to your self,
+            </Heading>
+            <Heading
+              className="headings HomeTextColor"
+              fontSize={{ base: 24, md: 36, lg: 60 }}
+              color={"#F79D5C"}
+              mb={4}
+            >
+              Do yoga every day.
+            </Heading>
+          </Box>
           <Box
-            w={{ base: "100%", md: "100%", lg: "50%" }}
-            height={{ base: "0", md: "300px" }}
+            display={{ base: "block", md: "flex" }}
+            w="100%"
+            height={{ base: "80vh", md: "auto" }}
+            justifyContent="space-between"
           >
-            <Image
-              src="—Pngtree—hand drawn creative yoga fitness_5337861.png"
-              alt="Yoga"
-              width={{ base: "100%", md: "60%" }}
-              m="auto"
-            />
+            <VStack pl={{ base: 14, md: 16, lg: 14 }} spacing={5} align="start">
+              <ul spacing={4} p={0} m={0}>
+                {goals.map((ele, index) => (
+                  <Box as="li" key={index} mb={4}>
+                    {ele}
+                  </Box>
+                ))}
+              </ul>
+            </VStack>
+            <Box
+              w={{ base: "100%", md: "100%", lg: "50%" }}
+              height={{ base: "0", md: "300px" }}
+            >
+              <Image
+                src="—Pngtree—hand drawn creative yoga fitness_5337861.png"
+                alt="Yoga"
+                width={{ base: "100%", md: "60%" }}
+                m="auto"
+              />
+            </Box>
+          </Box>
+          <Buttons />
+          <Box>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              className="waves"
+              preserveAspectRatio="none"
+              viewBox="0 24 150 24"
+              // {...props}
+            >
+              <defs>
+                <path
+                  id="a"
+                  d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"
+                />
+              </defs>
+              <g className="parallax">
+                <use xlinkHref="#a" x={48} fill="#F79D5C" />
+                <use xlinkHref="#a" x={48} fill="#efded7" />
+              </g>
+            </svg>
           </Box>
         </Box>
-        <Buttons />
-        <Box>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            className="waves"
-            preserveAspectRatio="none"
-            viewBox="0 24 150 24"
-            // {...props}
-          >
-            <defs>
-              <path
-                id="a"
-                d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"
-              />
-            </defs>
-            <g className="parallax">
-              <use xlinkHref="#a" x={48} fill="#F79D5C" />
-              <use xlinkHref="#a" x={48} fill="#efded7" />
-            </g>
-          </svg>
-        </Box>
-      </Box>
-    </UiContainer>
+      </UiContainer>
+    </UserLayout>
   );
 }

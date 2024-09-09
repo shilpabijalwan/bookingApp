@@ -1,8 +1,6 @@
 import { Button, Text } from "@chakra-ui/react";
 
 function Slots({ data }) {
-  // Log the data for debugging
-
   return (
     <>
       <Button
