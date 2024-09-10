@@ -20,7 +20,7 @@ function AdminLayout({ children }) {
       {/* Main Content */}
       <Box as="main" flex={1} flexDirection="column">
         {/* Topbar */}
-        <Box as="header" width="100%" bg="gray.50" padding={4}>
+        <Box as="header" bg="gray.50">
           <AdminTopbar />
         </Box>
 

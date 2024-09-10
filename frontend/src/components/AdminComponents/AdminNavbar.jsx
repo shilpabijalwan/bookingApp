@@ -86,8 +86,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
       </Flex>
       {LinkItems.map((link) => (
         <Box lineHeight={10} ml={10}>
-          <Link href={link.link} icon={link.icon}>
-            {link.name}
+          <Link href={link.link}>
+            <Flex align="center">
+              <Icon as={link.icon} mr="4" /> {/* Display the icon here */}
+              {link.name}
+            </Flex>
           </Link>
         </Box>
       ))}
