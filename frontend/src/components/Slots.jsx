@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 
 function Slots({ data }) {
   return (
@@ -6,7 +6,7 @@ function Slots({ data }) {
       <Button
         size="md"
         height="48px"
-        width={["100%", "200px"]} // Responsive width: full on small screens, fixed on larger screens
+        // width={["100%", "200px"]} // Responsive width: full on small screens, fixed on larger screens
         border="2px" // Thicker border for a more noticeable look
         borderColor="green.500"
         borderRadius="md" // Rounded corners

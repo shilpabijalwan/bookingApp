@@ -203,7 +203,7 @@ function Calendar() {
           {days}
         </SimpleGrid>
       </Stack>
-      <Box
+      {/* <Box
         alignItems={"center"}
         w={["100%", "100%", "50%"]}
         p={4}
@@ -212,13 +212,13 @@ function Calendar() {
         // border="1px solid black"
         mt={[6, 0]}
         gap={4}
-      >
-        {availableSlots.length ? (
-          availableSlots.map((slot, i) => <Slots key={i} data={slot} />)
-        ) : (
-          <Text>No slots available</Text>
-        )}
-      </Box>
+      > */}
+      {availableSlots.length ? (
+        availableSlots.map((slot, i) => <Slots key={i} data={slot} />)
+      ) : (
+        <Text>No slots available</Text>
+      )}
+      {/* </Box> */}
     </Box>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 
 function AdminTopbar() {
   return (
-    <Box border={"1px solid blue"} textAlign={"end"} w={"100%"} p={4}>
+    <Box textAlign={"end"} w={"100%"} p={6}>
       <Text>name :-- Admin Name</Text>
     </Box>
   );

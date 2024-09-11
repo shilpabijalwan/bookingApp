@@ -8,11 +8,10 @@ function AdminLayout({ children }) {
       {/* Sidebar */}
       <Box
         as="aside"
-        width="15%" // Adjust the sidebar width as needed
+        width={{ base: "0px", md: "15%" }} // Responsive sidebar width
         bg="white"
-        // padding={4}
-
         zIndex={6}
+        display={{ base: "block", md: "block" }} // Hide sidebar on mobile
       >
         <AdminNavbar />
       </Box>
@@ -20,12 +19,12 @@ function AdminLayout({ children }) {
       {/* Main Content */}
       <Box as="main" flex={1} flexDirection="column">
         {/* Topbar */}
-        <Box as="header" bg="gray.50">
+        <Box as="header" bg="gray.50" boxShadow="sm" zIndex={5}>
           <AdminTopbar />
         </Box>
 
         {/* Main content area */}
-        <Box flex={1} padding={8}>
+        <Box flex={1} p={{ base: 4, md: 8 }} overflowY="auto">
           {children}
         </Box>
       </Box>

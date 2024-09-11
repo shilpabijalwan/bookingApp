@@ -38,7 +38,7 @@ function AdminCalander() {
   const handleSelectedDate = (date) => {
     console.log("selected date", date);
     setSelectedDate(date);
-    onOpen();
+    // onOpen();
   };
 
   const handlePreviousMonth = () => {

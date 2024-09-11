@@ -59,9 +59,6 @@ export default function AdminNavbar() {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
-      {/* <Box ml={{ base: 0, md: 60 }} p="4">
-        Content
-      </Box> */}
     </Box>
   );
 }
@@ -71,8 +68,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
     <Box
       bg={useColorModeValue("#011936", "gray.900")}
       borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      borderRightColor={useColorModeValue("red.200", "gray.700")}
+      w={{ base: "full", md: 40 }}
       pos="fixed"
       h="full"
       color={"white"}
@@ -85,7 +82,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <Box lineHeight={10} ml={10}>
+        <Box lineHeight={10} mx={4}>
           <Link href={link.link}>
             <Flex align="center">
               <Icon as={link.icon} mr="4" /> {/* Display the icon here */}
@@ -144,11 +141,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
       height="20"
       alignItems="center"
       bg={useColorModeValue("white", "gray.900")}
-      borderBottomWidth="1px"
+      // borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent="flex-start"
       {...rest}
-      border={"1px solid blue"}
+      // border={"1px solid blue"}
     >
       <IconButton
         variant="outline"
