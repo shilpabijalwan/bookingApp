@@ -20,22 +20,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { userInfo } from "@/redux/authSlice";
 import UserLayout from "@/layout/UserLayout";
+import { fetchUserData } from "@/services/authService";
 
 export default function Home({ Components, pageProps }) {
-  const dispatch = useDispatch();
-  const fetchUserData = async () => {
-    try {
-      // Make a request to the backend without setting cookies manually
-      const response = await axiosToken.get(`/users/getUser`, {});
-      console.log(response.data?.data, "__________>>>>>>>>");
-      dispatch(userInfo(response.data?.data));
-      // return response.data.user;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      return null;
-    }
-  };
-
   useEffect(() => {
     fetchUserData();
   }, []);

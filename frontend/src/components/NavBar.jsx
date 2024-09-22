@@ -31,8 +31,10 @@ import NextLink from "next/link";
 // import { Link } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoginModal from "@/modals/LoginModal";
+import { useSelector } from "react-redux";
+import { fetchUserData } from "@/services/authService";
 
 const Links = [
   { link: "/", name: "Home" },
@@ -50,8 +52,6 @@ const NavLink = (props) => {
       spacing={12}
       display={{ base: "none", md: "flex" }}
       as="nav"
-      // px={2}
-      // py={1}
       href={"#"}
     >
       {children}
@@ -71,9 +71,18 @@ export default function NavBar() {
   const btnRef = useRef();
   const router = useRouter();
 
+  const isAdmin = useSelector((data) => {
+    return data.auth.userDetails;
+  });
+
   const handleAdminDashboard = () => {
     router.push("/admin-dashboard");
   };
+  useEffect(() => {
+    if (!isAdmin?.id) {
+      fetchUserData();
+    }
+  }, []);
   return (
     <Box bg={"#fdf1f1"} px={4} h={20}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
@@ -103,21 +112,46 @@ export default function NavBar() {
             </Link>
           ))}
         </NavLink>
-        <Button onClick={handleAdminDashboard}>Admin Dashboard</Button>
+
         <Flex alignItems={"center"}>
-          <Button
-            onClick={onOpenLogin}
-            // as={NextLink}
-            // href="/login"
-            // variant={"solid"}
-            bg={"#F79D5C"}
-            size={"sm"}
-            mr={4}
-            color={"white"}
-            _hover={{ color: "none" }}
-          >
-            Login
-          </Button>
+          {isAdmin?.role == "admin" && (
+            <Button
+              bg={"#011936"}
+              textColor={"white"}
+              onClick={handleAdminDashboard}
+            >
+              Admin Dashboard
+            </Button>
+          )}
+          {!isAdmin?.id &&
+          isAdmin?.role !== "admin" &&
+          isAdmin?.role !== "user" ? (
+            <Button
+              onClick={onOpenLogin}
+              // as={NextLink}
+              // href="/login"
+              // variant={"solid"}
+              bg={"#F79D5C"}
+              size={"sm"}
+              mr={4}
+              color={"white"}
+              _hover={{ color: "none" }}
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              display={isAdmin?.role == "admin" ? "none" : ""}
+              bg={"#F79D5C"}
+              size={"sm"}
+              mr={4}
+              px={8}
+              color={"white"}
+              _hover={{ color: "none" }}
+            >
+              {isAdmin?.userName}
+            </Button>
+          )}
 
           <LoginModal isOpen={isOpenLogin} onClose={onCloseLogin} />
 

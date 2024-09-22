@@ -229,8 +229,6 @@ function AdminSchedule() {
           )}
         </Box>
       </Box>
-
-      {/* <AdminCalander /> */}
     </AdminLayout>
   );
 }

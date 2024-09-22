@@ -16,11 +16,12 @@ import {
 } from "@chakra-ui/react";
 import { BeatLoader } from "react-spinners";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { userLogin } from "@/services/authService";
-import { useSelector } from "react-redux";
+import { fetchUserData, userLogin } from "@/services/authService";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import { userInfo } from "@/redux/authSlice";
 
 function LoginModal({ isOpen, onClose }) {
   const [show, setShow] = useState(false);
@@ -41,15 +42,21 @@ function LoginModal({ isOpen, onClose }) {
     reset,
     formState: { errors },
   } = useForm();
+  const isEmail = (input) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
 
   const handleSLogin = async (data) => {
+    let payloadData = "";
+
+    const inputValue = data.userName;
+    if (isEmail(inputValue)) {
+      payloadData = { email: inputValue, password: data.password };
+    } else {
+      payloadData = { userName: inputValue, password: data.password };
+    }
+
     try {
-      await userLogin(data).then((res) => {
+      await userLogin(payloadData).then((res) => {
         console.log(res);
-        if (res) {
-          const cookieStore = Cookies.get("accessToken");
-          console.log(cookieStore, "cookies");
-        }
         reset();
         toast({
           title: res?.data?.message,
@@ -57,6 +64,8 @@ function LoginModal({ isOpen, onClose }) {
           isClosable: true,
           duration: 1000,
         });
+        onClose();
+        fetchUserData();
       });
     } catch (error) {
       toast({
@@ -67,6 +76,9 @@ function LoginModal({ isOpen, onClose }) {
       });
     }
   };
+  // useEffect(() => {
+
+  // }, []);
 
   return (
     <Modal
@@ -140,7 +152,7 @@ function LoginModal({ isOpen, onClose }) {
             )}
           </ModalFooter>
         </form>
-        <Box href={"/signup"} m={"auto"} mt={4} w={"100%"} textAlign={"center"}>
+        <Box m={"auto"} mt={4} w={"100%"} textAlign={"center"}>
           Don't have an account ?
           <Link
             onClick={handleModal}

@@ -163,7 +163,6 @@ function AdminCalander() {
           borderRadius="md"
           alignSelf={"center"}
           // border={"1px solid blue"}
-          ml={[32, 32, 32, "auto"]}
         >
           <HStack justifyContent="space-between">
             <Button

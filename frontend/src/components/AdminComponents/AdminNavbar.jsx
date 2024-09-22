@@ -81,8 +81,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <Box lineHeight={10} mx={4}>
+      {LinkItems.map((link, i) => (
+        <Box lineHeight={10} mx={4} key={link.name + i}>
           <Link href={link.link}>
             <Flex align="center">
               <Icon as={link.icon} mr="4" /> {/* Display the icon here */}
